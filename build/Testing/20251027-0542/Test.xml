@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Darwin-c++"
+	BuildStamp="20251027-0542-Experimental"
+	Name="emilios-MacBook-Pro.local"
+	Generator="ctest-4.1.1"
+	CompilerName="/usr/bin/c++"
+	CompilerVersion="14.0.3.14030022"
+	OSName="macOS"
+	Hostname="emilios-MacBook-Pro.local"
+	OSRelease="13.4.1"
+	OSVersion="22F770820d"
+	OSPlatform="arm64"
+	Is64Bits="1"
+	VendorString="Apple"
+	VendorID="Apple"
+	FamilyID="0"
+	ModelID="0"
+	ModelName="Apple M2 Pro"
+	ProcessorCacheSize="131072"
+	NumberOfLogicalCPU="12"
+	NumberOfPhysicalCPU="12"
+	TotalVirtualMemory="1024"
+	TotalPhysicalMemory="16384"
+	LogicalProcessorsPerPhysical="12"
+	ProcessorClockFrequency="0"
+	>
+	<Testing>
+		<StartDateTime>Nov 11 13:31 CST</StartDateTime>
+		<StartTestTime>1762889462</StartTestTime>
+		<TestList/>
+		<EndDateTime>Nov 11 13:31 CST</EndDateTime>
+		<EndTestTime>1762889462</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

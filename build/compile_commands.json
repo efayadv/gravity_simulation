@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/emiliofayad/gravity_project_2/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -g -std=gnu++17 -arch arm64 -o CMakeFiles/gravity_project_2.dir/main.cpp.o -c /Users/emiliofayad/gravity_project_2/main.cpp",
+  "file": "/Users/emiliofayad/gravity_project_2/main.cpp",
+  "output": "CMakeFiles/gravity_project_2.dir/main.cpp.o"
+}
+]
