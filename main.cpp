@@ -48,6 +48,10 @@ class Object {
             glVertex2d(x, y);
         }
         glEnd();
+
+    void WorkCollision(std::vector<Object>& objs, float ballWidth){
+        
+    }
 }
 
 };
@@ -70,21 +74,34 @@ int main(){
     while(!glfwWindowShouldClose(window)){
 
         glClear(GL_COLOR_BUFFER_BIT);
-
+ 
         //DrawCircle(position[0], position[1], 50.0f, 50);
         
         for(auto& obj : objs) {
-            obj.accelerate(5.0f, -9.81);
+            obj.accelerate(0.0f, -9.81);
             obj.updatePos();
             obj.DrawCircle(obj.position[0], obj.position[1], obj.radius, res);  
 
-            if(obj.position[1] < 0 || obj.position[1] > screenHeight){
+            if(obj.position[1] < 0) {
+                obj.position[1] = obj.radius;
                 obj.velocity[1] *= -0.95;
             }
-            if(obj.position[0] < 0 || obj.position[0] > screenWidth){
+
+            if(obj.position[1] > screenHeight) {
+                obj.position[1] = screenHeight - obj.radius;
+                obj.velocity[1] *= -0.95;
+            }
+
+            if(obj.position[0] < 0) {
+                obj.position[0] = obj.radius;
                 obj.velocity[0] *= -0.95;
             }
-        
+
+            if(obj.position[0] > screenWidth) {
+                obj.position[0] = screenWidth - obj.radius;
+                obj.velocity[0] *= -0.95;
+            }
+
         }
  
         glfwSwapBuffers(window);
@@ -110,7 +127,7 @@ GLFWwindow* StartGLFW(){
         return nullptr;
     }
     
-    glfwMakeContextCurrent(window);  // This is crucial!
+    glfwMakeContextCurrent(window);  // This is crucial!  
     
     // Setup orthographic projection for pixel coordinates
     glMatrixMode(GL_PROJECTION);
