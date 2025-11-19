@@ -25,7 +25,7 @@ class Object {
         this->position = position;
         this->velocity = velocity;
         this->radius = radius;
-    }   
+    }       
 
     void accelerate(float x, float y){
         this->velocity[0] += x;
@@ -48,13 +48,54 @@ class Object {
             glVertex2d(x, y);
         }
         glEnd();
-
-    void WorkCollision(std::vector<Object>& objs, float ballWidth){
-        
     }
-}
 
 };
+
+bool findCollision(Object& obj1, Object& obj2) {
+
+        float horizontal_dist = obj2.position[0] - obj1.position[0];
+        float vertical_dist = obj2.position[1] - obj1.position[1];
+        float distance = sqrt(horizontal_dist * horizontal_dist + vertical_dist * vertical_dist);
+
+        return distance < (obj1.radius + obj2.radius);
+
+}
+
+void workCollision(Object& obj1, Object& obj2){
+        
+        float horizontal_dist = obj2.position[0] - obj1.position[0];
+        float vertical_dist = obj2.position[1] - obj1.position[1];
+        float distance = sqrt(horizontal_dist * horizontal_dist + vertical_dist * vertical_dist);
+
+        if (distance == 0) distance = 0.01f; // to prevent division by zero
+
+        float nx = horizontal_dist / distance;
+        float ny = vertical_dist / distance;
+
+        float overlap = (obj1.radius + obj2.radius) - distance;
+        obj1.position[0] -= nx * overlap * 0.5f;
+        obj1.position[1] -= ny * overlap * 0.5f;
+        obj2.position[0] += nx * overlap * 0.5f;
+        obj2.position[1] += ny * overlap * 0.5f;
+        
+        float dvx = obj2.velocity[0] - obj1.velocity[0];
+        float dvy = obj2.velocity[1] - obj1.velocity[1];
+        
+        float velocityAlongNormal = dvx * nx + dvy * ny;
+        
+        if (velocityAlongNormal > 0) return;
+        
+        float restitution = 0.8f;
+        
+        float impulse = -(1.0f + restitution) * velocityAlongNormal;
+        impulse /= 2.0f; 
+        
+        obj1.velocity[0] -= impulse * nx;
+        obj1.velocity[1] -= impulse * ny;
+        obj2.velocity[0] += impulse * nx;
+        obj2.velocity[1] += impulse * ny;
+}
 
 int main(){
     GLFWwindow* window = StartGLFW();
@@ -66,7 +107,8 @@ int main(){
 
     std::vector<Object> objs = {
         Object(std::vector<float>{200.0f, 500.0f}, std::vector<float>{5.0f, 0.0f}),
-        Object(std::vector<float>{700.0f, 500.0f}, std::vector<float>{5.0f, 0.0f})
+        Object(std::vector<float>{700.0f, 500.0f}, std::vector<float>{5.0f, 0.0f}),
+        Object(std::vector<float>{500.0f, 300.0f}, std::vector<float>{5.0f, 0.0f})
     };
     
     //to be continued...
@@ -103,7 +145,16 @@ int main(){
             }
 
         }
- 
+
+        //collision loop
+        for(size_t i = 0; i < objs.size(); i++) {
+            for(size_t j = i + 1; j < objs.size(); j++) {
+                if(findCollision(objs[i], objs[j])) {
+                    workCollision(objs[i], objs[j]);
+                }
+            }
+        }
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
